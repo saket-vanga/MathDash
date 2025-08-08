@@ -1,18 +1,27 @@
 body {
   font-family: sans-serif;
   margin: 40px;
+  text-align: center;
 }
 
 #game {
   max-width: 300px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 #answerInput {
   width: 60px;
   font-size: 1.2em;
+  text-align: center;
 }
 
 #submitBtn, #startBtn {
   margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 1em;
+}
+
+#question, #feedback, #score, #timer {
+  margin: 10px 0;
+  font-size: 1.2em;
 }
