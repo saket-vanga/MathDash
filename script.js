@@ -9,19 +9,23 @@ function randomQuestion() {
   const operations = ['+', '-', '×'];
   const op = operations[Math.floor(Math.random() * operations.length)];
 
+
   if (op === '+') currentAnswer = a + b;
   else if (op === '-') currentAnswer = a - b;
   else currentAnswer = a * b;
 
+
   document.getElementById('question').textContent = `${a} ${op} ${b} = ?`;
+
   document.getElementById('feedback').textContent = '';
-  document.getElementById('answerInput').value = '';
-  document.getElementById('answerInput')focus();
+  const answerInput = document.getElementById('answerInput');
+  answerInput.value = '';
+  answerInput.focus();
 }
 
 function checkAnswer() {
-  const answer = Number(document.getElementById('answerInput').value);
-  if (answer === currentAnswer) {
+  const userAnswer = Number(document.getElementById('answerInput').value);
+  if (userAnswer === currentAnswer) {
     score++;
     document.getElementById('score').textContent = `Score: ${score}`;
     randomQuestion();
@@ -38,10 +42,11 @@ function startGame() {
   document.getElementById('startBtn').style.display = 'none';
   randomQuestion();
   document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
+
   timerId = setInterval(() => {
     timeLeft--;
     document.getElementById('timer').textContent = `Time: ${timeLeft}s`;
-    if (timeLeft === 0) endGame();
+    if (timeLeft <= 0) endGame();
   }, 1000);
 }
 
@@ -53,8 +58,9 @@ function endGame() {
   document.getElementById('startBtn').style.display = 'inline';
 }
 
+
 document.getElementById('submitBtn').onclick = checkAnswer;
-document.getElementById('answerInput').onkeydown = (e) => {
+document.getElementById('answerInput').onkeydown = e => {
   if (e.key === 'Enter') checkAnswer();
 };
 document.getElementById('startBtn').onclick = startGame;
