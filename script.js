@@ -3,6 +3,7 @@ let timeLeft = 60;
 let timerId;
 let currentAnswer;
 
+// Generate a new random question
 function randomQuestion() {
   const a = Math.floor(Math.random() * 20);
   const b = Math.floor(Math.random() * 20);
@@ -20,8 +21,9 @@ function randomQuestion() {
   answerInput.focus();
 }
 
+// Check the player's answer
 function checkAnswer() {
-  const userAnswer = Number(document.getElementById('answerInput').value);
+  const userAnswer = Number(document.getElementById('answerInput').value.trim());
   const feedback = document.getElementById('feedback');
 
   if (userAnswer === currentAnswer) {
@@ -29,8 +31,7 @@ function checkAnswer() {
     document.getElementById('score').textContent = `Score: ${score}`;
     feedback.style.color = '#16a34a'; // green
     feedback.textContent = '✔️ Correct!';
-    // Wait briefly to let player see feedback before next question
-    setTimeout(randomQuestion, 500);
+    setTimeout(randomQuestion, 500); // short pause
   } else {
     feedback.style.color = '#ef4444'; // red
     feedback.textContent = '✖️ Wrong! Try again.';
@@ -38,6 +39,7 @@ function checkAnswer() {
   }
 }
 
+// Start a new game
 function startGame() {
   score = 0;
   timeLeft = 60;
@@ -53,6 +55,7 @@ function startGame() {
   }, 1000);
 }
 
+// End the game
 function endGame() {
   clearInterval(timerId);
   document.getElementById('question').textContent = 'Game Over!';
@@ -63,8 +66,26 @@ function endGame() {
   document.getElementById('startBtn').style.display = 'inline';
 }
 
+// -------------------- Event Listeners -------------------- //
 document.getElementById('submitBtn').onclick = checkAnswer;
 document.getElementById('answerInput').onkeydown = e => {
   if (e.key === 'Enter') checkAnswer();
 };
 document.getElementById('startBtn').onclick = startGame;
+
+// Mobile keypad logic
+document.querySelectorAll('#keypad .key').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const val = btn.textContent;
+    const answerInput = document.getElementById('answerInput');
+
+    if (val === '⏎') {
+      checkAnswer();
+    } else if (val === '⌫') {
+      answerInput.value = answerInput.value.slice(0, -1);
+    } else {
+      answerInput.value += val;
+    }
+    answerInput.focus();
+  });
+});
