@@ -3,6 +3,16 @@ let timeLeft = 60;
 let timerId;
 let currentAnswer;
 
+// Detect if the user is on a mobile device
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const answerInputField = document.getElementById('answerInput');
+
+// Make readonly on mobile to block native keypad
+if (isMobile) {
+  answerInputField.setAttribute('readonly', true);
+} else {
+  answerInputField.removeAttribute('readonly');
+}
 
 function randomQuestion() {
   const a = Math.floor(Math.random() * 20);
@@ -16,29 +26,26 @@ function randomQuestion() {
 
   document.getElementById('question').textContent = `${a} ${op} ${b} = ?`;
   document.getElementById('feedback').textContent = '';
-  const answerInput = document.getElementById('answerInput');
-  answerInput.value = '';
-  answerInput.focus();
+  answerInputField.value = '';
+  answerInputField.focus();
 }
 
-
 function checkAnswer() {
-  const userAnswer = Number(document.getElementById('answerInput').value.trim());
+  const userAnswer = Number(answerInputField.value.trim());
   const feedback = document.getElementById('feedback');
 
   if (userAnswer === currentAnswer) {
     score++;
     document.getElementById('score').textContent = `Score: ${score}`;
-    feedback.style.color = '#16a34a'; 
+    feedback.style.color = '#16a34a';
     feedback.textContent = '✔️ Correct!';
-    setTimeout(randomQuestion, 500); 
+    setTimeout(randomQuestion, 500);
   } else {
-    feedback.style.color = '#ef4444'; 
+    feedback.style.color = '#ef4444';
     feedback.textContent = '✖️ Wrong! Try again.';
-    document.getElementById('answerInput').select();
+    answerInputField.select();
   }
 }
-
 
 function startGame() {
   score = 0;
@@ -55,7 +62,6 @@ function startGame() {
   }, 1000);
 }
 
-
 function endGame() {
   clearInterval(timerId);
   document.getElementById('question').textContent = 'Game Over!';
@@ -66,26 +72,33 @@ function endGame() {
   document.getElementById('startBtn').style.display = 'inline';
 }
 
-
-document.getElementById('submitBtn').onclick = checkAnswer;
-document.getElementById('answerInput').onkeydown = e => {
+// --- Event Listeners ---
+document.getElementById('startBtn').onclick = startGame;
+document.getElementById('submitBtn')?.addEventListener('click', checkAnswer);
+answerInputField.onkeydown = e => {
   if (e.key === 'Enter') checkAnswer();
 };
-document.getElementById('startBtn').onclick = startGame;
 
-
+// On-screen keypad logic
 document.querySelectorAll('#keypad .key').forEach(btn => {
   btn.addEventListener('click', () => {
     const val = btn.textContent;
-    const answerInput = document.getElementById('answerInput');
 
     if (val === '⏎') {
       checkAnswer();
-    } else if (val === '⌫') {
-      answerInput.value = answerInput.value.slice(0, -1);
-    } else {
-      answerInput.value += val;
+    } 
+    else if (val === '⌫') {
+      answerInputField.value = answerInputField.value.slice(0, -1);
+    } 
+    else if (val === '−') {
+      if (answerInputField.value.startsWith('-')) {
+        answerInputField.value = answerInputField.value.slice(1);
+      } else {
+        answerInputField.value = '-' + answerInputField.value;
+      }
+    } 
+    else {
+      answerInputField.value += val;
     }
-    answerInput.focus();
   });
 });
