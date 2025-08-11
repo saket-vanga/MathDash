@@ -9,37 +9,45 @@
   <div class="container">
     <h1>Welcome to MathDash</h1>
     <div id="game">
-     
       <div id="question">Press Start to Begin</div>
 
+      <input id="answerInput" type="number" placeholder="Your answer"
+             autocomplete="off" inputmode="numeric" />
 
-      <input id="answerInput" type="number" placeholder="Your answer" autocomplete="off" inputmode="numeric" />
-
-
+     
       <button id="submitBtn">Submit</button>
 
+     
+    <div id="keypad">
+      <button class="key">1</button>
+      <button class="key">2</button>
+      <button class="key">3</button>
 
-      <div id="keypad">
-        <button class="key">1</button>
-        <button class="key">2</button>
-        <button class="key">3</button>
-        <button class="key">4</button>
-        <button class="key">5</button>
-        <button class="key">6</button>
-        <button class="key">7</button>
-        <button class="key">8</button>
-        <button class="key">9</button>
-        <button id="clearKey" class="key">⌫</button>
-        <button class="key">0</button>
-        <button id="enterKey" class="key">⏎</button>
-      </div>
+      <button class="key">4</button>
+      <button class="key">5</button>
+      <button class="key">6</button>
+
+      <button class="key">7</button>
+      <button class="key">8</button>
+      <button class="key">9</button>
+
+      <button id="minusKey" class="key">−</button>
+      <button class="key">0</button>
+      <button id="clearKey" class="key">⌫</button>
+
+      
+        <div class="empty"></div>
+            <button id="enterKey" class="key wide">⏎</button>
+            <div class="empty"></div>
+        </div>
 
 
+    
       <div id="feedback"></div>
       <div id="score">Score: 0</div>
       <div id="timer">Time: 60s</div>
 
-
+      
       <button id="startBtn">Start Game</button>
     </div>
   </div>
