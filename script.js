@@ -3,11 +3,11 @@ let timeLeft = 60;
 let timerId;
 let currentAnswer;
 
-// Detect if the user is on a mobile device
+
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const answerInputField = document.getElementById('answerInput');
 
-// Make readonly on mobile to block native keypad
+
 if (isMobile) {
   answerInputField.setAttribute('readonly', true);
 } else {
@@ -72,14 +72,14 @@ function endGame() {
   document.getElementById('startBtn').style.display = 'inline';
 }
 
-// --- Event Listeners ---
+
 document.getElementById('startBtn').onclick = startGame;
 document.getElementById('submitBtn')?.addEventListener('click', checkAnswer);
 answerInputField.onkeydown = e => {
   if (e.key === 'Enter') checkAnswer();
 };
 
-// On-screen keypad logic
+
 document.querySelectorAll('#keypad .key').forEach(btn => {
   btn.addEventListener('click', () => {
     const val = btn.textContent;
